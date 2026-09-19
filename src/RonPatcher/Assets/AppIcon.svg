@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="110" y1="100" x2="914" y2="930" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#12B8FF"/>
+      <stop offset="0.52" stop-color="#3976F6"/>
+      <stop offset="1" stop-color="#7357E8"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="350" y1="260" x2="680" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="0.98"/>
+      <stop offset="1" stop-color="#DBE9FF" stop-opacity="0.9"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="30" stdDeviation="28" flood-color="#162B72" flood-opacity="0.38"/>
+    </filter>
+  </defs>
+  <rect x="64" y="64" width="896" height="896" rx="224" fill="url(#bg)"/>
+  <circle cx="512" cy="510" r="337" fill="#092456" opacity="0.16"/>
+  <path d="M512 213L719 296V475C719 632 633 757 512 817C391 757 305 632 305 475V296L512 213Z"
+        fill="url(#shield)" filter="url(#shadow)"/>
+  <path d="M512 291L645 345V474C645 574 594 659 512 708C430 659 379 574 379 474V345L512 291Z"
+        fill="#214FBA" opacity="0.13"/>
+  <path d="M276 447C305 349 391 279 493 268" fill="none" stroke="#FFFFFF" stroke-width="54" stroke-linecap="round"/>
+  <path d="M486 220L565 265L492 320Z" fill="#FFFFFF"/>
+  <path d="M748 575C715 674 627 740 525 750" fill="none" stroke="#9AF1FF" stroke-width="54" stroke-linecap="round"/>
+  <path d="M536 798L458 753L531 699Z" fill="#9AF1FF"/>
+  <path d="M512 338V670" stroke="#FFFFFF" stroke-opacity="0.85" stroke-width="28" stroke-linecap="round" stroke-dasharray="32 34"/>
+  <rect x="461" y="440" width="102" height="102" rx="24" fill="#FFFFFF"/>
+  <rect x="488" y="467" width="48" height="48" rx="11" fill="#3976F6"/>
+</svg>
+

@@ -1,0 +1,17 @@
+bin/
+obj/
+.vs/
+.idea/
+*.user
+*.suo
+.ron-patcher/
+.tmp/
+dist/
+*.zip
+*.rar
+*.7z
+launcher/*.exe
+launcher/*.res
+launcher/*.obj
+launcher/使用说明.txt
+*联机补丁*/

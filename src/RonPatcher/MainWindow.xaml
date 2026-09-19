@@ -1,0 +1,236 @@
+<Window
+    x:Class="RonPatcher.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="RON Patcher">
+    <Grid x:Name="RootGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid x:Name="AppTitleBar" Height="48" VerticalAlignment="Top" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Width="20" Height="20" Margin="14,0,10,0" Source="ms-appx:///Assets/AppIcon.png" />
+            <TextBlock Grid.Column="1" Text="RON Patcher" VerticalAlignment="Center"
+                       FontSize="12" FontWeight="SemiBold" />
+        </Grid>
+
+        <NavigationView
+            Grid.Row="1"
+            IsBackButtonVisible="Collapsed"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="False"
+            IsPaneOpen="True"
+            PaneDisplayMode="Left"
+            OpenPaneLength="216"
+            CompactPaneLength="52"
+            AlwaysShowHeader="False">
+            <NavigationView.Background>
+                <SolidColorBrush Color="Transparent" />
+            </NavigationView.Background>
+            <NavigationView.PaneHeader>
+                <StackPanel Margin="10,12,0,8" Spacing="2">
+                    <TextBlock Text="Ready or Not" FontSize="18" FontWeight="SemiBold" />
+                    <TextBlock Text="模式管理器" FontSize="12" Opacity="0.56" />
+                </StackPanel>
+            </NavigationView.PaneHeader>
+            <NavigationView.MenuItems>
+                <NavigationViewItem Content="概览" Icon="Home" IsSelected="True" />
+            </NavigationView.MenuItems>
+            <NavigationView.FooterMenuItems>
+                <NavigationViewItem Content="本地工具 · v0.2.3" IsEnabled="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE946;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+            </NavigationView.FooterMenuItems>
+
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <StackPanel MaxWidth="1050" HorizontalAlignment="Center" Margin="32,26,32,40" Spacing="18">
+                    <StackPanel Spacing="5">
+                        <TextBlock Text="概览" FontSize="30" FontWeight="SemiBold" />
+                        <TextBlock Text="在局域网补丁与 Steam 正版之间安全切换" FontSize="14" Opacity="0.62" />
+                    </StackPanel>
+
+                    <InfoBar
+                        IsOpen="{Binding HasMessage}"
+                        Severity="{Binding MessageSeverity}"
+                        Title="{Binding MessageTitle}"
+                        Message="{Binding MessageText}"
+                        IsClosable="False" />
+
+                    <Border Padding="20" CornerRadius="10"
+                            Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                        <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="16">
+                            <Border Width="42" Height="42" CornerRadius="21"
+                                    Background="{ThemeResource SubtleFillColorSecondaryBrush}">
+                                <FontIcon Glyph="&#xE8B7;" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            </Border>
+                            <StackPanel Grid.Column="1" Spacing="6" VerticalAlignment="Center">
+                                <TextBlock Text="游戏安装位置" FontSize="15" FontWeight="SemiBold" />
+                                <TextBlock Text="{Binding GamePath}" FontSize="13" TextTrimming="CharacterEllipsis" Opacity="0.66" />
+                                <TextBlock Text="{Binding PatchArchivePath}" FontSize="12" TextTrimming="CharacterEllipsis" Opacity="0.48" />
+                            </StackPanel>
+                            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                <Button Content="选择补丁" Click="ChoosePatch_Click" />
+                                <Button Content="更改路径" Click="ChooseGamePath_Click" />
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="12">
+                        <Border Grid.Column="0" Padding="18" CornerRadius="10"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="13">
+                                <Border Width="38" Height="38" CornerRadius="19" Background="#193B82F6">
+                                    <FontIcon Glyph="&#xE8D7;" Foreground="#5B9DFF" FontSize="17"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel Grid.Column="1" Spacing="4">
+                                    <TextBlock Text="当前模式" FontSize="12" Opacity="0.58" />
+                                    <TextBlock Text="{Binding ModeDisplay}" FontSize="19" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding ModeDetail}" FontSize="11" TextWrapping="Wrap" Opacity="0.56" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <Border Grid.Column="1" Padding="18" CornerRadius="10"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="13">
+                                <Border Width="38" Height="38" CornerRadius="19" Background="#193FCF8E">
+                                    <FontIcon Glyph="&#xE73E;" Foreground="#45C58D" FontSize="17"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel Grid.Column="1" Spacing="4">
+                                    <TextBlock Text="文件完整性" FontSize="12" Opacity="0.58" />
+                                    <TextBlock Text="{Binding IntegrityDisplay}" FontSize="19" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding IntegrityDetail}" FontSize="11" TextWrapping="Wrap" Opacity="0.56" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                        <Border Grid.Column="2" Padding="18" CornerRadius="10"
+                                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                            <Grid ColumnDefinitions="Auto,*" ColumnSpacing="13">
+                                <Border Width="38" Height="38" CornerRadius="19" Background="#19A15FED">
+                                    <FontIcon Glyph="&#xE823;" Foreground="#B27AFF" FontSize="17"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel Grid.Column="1" Spacing="4">
+                                    <TextBlock Text="最近切换" FontSize="12" Opacity="0.58" />
+                                    <TextBlock Text="{Binding LastOperationDisplay}" FontSize="17" FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Text="{Binding LastOperationDetail}" FontSize="11" TextWrapping="Wrap" Opacity="0.56" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <TextBlock Text="快速操作" FontSize="20" FontWeight="SemiBold" Margin="0,5,0,0" />
+                    <Border CornerRadius="10" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                            BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                        <StackPanel>
+                            <Grid Padding="18,15" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                                <Border Width="40" Height="40" CornerRadius="8" Background="#193B82F6">
+                                    <FontIcon Glyph="&#xE968;" Foreground="#5B9DFF" FontSize="18"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                    <TextBlock Text="局域网模式" FontSize="15" FontWeight="SemiBold" />
+                                    <TextBlock Text="应用补丁并通过 ColdClientLoader 启动" FontSize="12" Opacity="0.58" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                    <Button Content="切换" Click="SwitchToLan_Click" IsEnabled="{Binding CanSwitchToLan}" />
+                                    <Button Content="启动游戏" Style="{StaticResource AccentButtonStyle}"
+                                            Click="LaunchLan_Click" IsEnabled="{Binding CanLaunchLan}" />
+                                </StackPanel>
+                            </Grid>
+                            <Rectangle Height="1" Fill="{ThemeResource DividerStrokeColorDefaultBrush}" Margin="74,0,0,0" />
+                            <Grid Padding="18,15" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                                <Border Width="40" Height="40" CornerRadius="8" Background="#193FCF8E">
+                                    <FontIcon Glyph="&#xE83E;" Foreground="#45C58D" FontSize="18"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                    <TextBlock Text="Steam 正版" FontSize="15" FontWeight="SemiBold" />
+                                    <TextBlock Text="恢复已备份的原版游戏文件并交给 Steam 启动" FontSize="12" Opacity="0.58" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                    <Button Content="恢复正版" Click="SwitchToOfficial_Click" IsEnabled="{Binding CanSwitchToOfficial}" />
+                                    <Button Content="Steam 启动" Click="LaunchOfficial_Click" IsEnabled="{Binding CanLaunchOfficial}" />
+                                </StackPanel>
+                            </Grid>
+                            <Rectangle Height="1" Fill="{ThemeResource DividerStrokeColorDefaultBrush}" Margin="74,0,0,0" />
+                            <Grid Padding="18,15" ColumnDefinitions="Auto,*,Auto" ColumnSpacing="15">
+                                <Border Width="40" Height="40" CornerRadius="8" Background="#19A15FED">
+                                    <FontIcon Glyph="&#xE90F;" Foreground="#B27AFF" FontSize="18"
+                                              HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="2">
+                                    <TextBlock Text="维护工具" FontSize="15" FontWeight="SemiBold" />
+                                    <TextBlock Text="扫描状态、修复当前模式或回滚上次操作" FontSize="12" Opacity="0.58" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="8" VerticalAlignment="Center">
+                                    <ProgressRing Width="22" Height="22" IsActive="{Binding IsBusy}" Margin="0,0,4,0" />
+                                    <Button Content="扫描" Click="Scan_Click" IsEnabled="{Binding CanScan}" />
+                                    <Button Content="修复" Click="Repair_Click" IsEnabled="{Binding CanRepair}" />
+                                    <Button Content="回滚" Click="Rollback_Click" IsEnabled="{Binding CanRollback}" />
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <StackPanel Spacing="12">
+                        <Expander Header="文件哈希计算明细">
+                            <ListView ItemsSource="{Binding FileStatuses}" MaxHeight="360" SelectionMode="None" HorizontalContentAlignment="Stretch">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Spacing="4" Padding="0,7">
+                                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                                                <TextBlock Text="{Binding RelativePath}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Grid.Column="1" Text="{Binding Status}" Opacity="0.72" />
+                                            </Grid>
+                                            <Grid ColumnDefinitions="72,*" ColumnSpacing="8">
+                                                <TextBlock Text="当前文件" FontSize="11" Opacity="0.5" />
+                                                <TextBlock Grid.Column="1" Text="{Binding CurrentHash}" FontFamily="Consolas" FontSize="11" TextTrimming="CharacterEllipsis" IsTextSelectionEnabled="True" />
+                                            </Grid>
+                                            <Grid ColumnDefinitions="72,*" ColumnSpacing="8">
+                                                <TextBlock Text="原版备份" FontSize="11" Opacity="0.5" />
+                                                <TextBlock Grid.Column="1" Text="{Binding OriginalHash}" FontFamily="Consolas" FontSize="11" TextTrimming="CharacterEllipsis" IsTextSelectionEnabled="True" />
+                                            </Grid>
+                                            <Grid ColumnDefinitions="72,*" ColumnSpacing="8">
+                                                <TextBlock Text="补丁文件" FontSize="11" Opacity="0.5" />
+                                                <TextBlock Grid.Column="1" Text="{Binding PatchHash}" FontFamily="Consolas" FontSize="11" TextTrimming="CharacterEllipsis" IsTextSelectionEnabled="True" />
+                                            </Grid>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Expander>
+                        <Expander Header="操作日志">
+                            <ListView ItemsSource="{Binding OperationLogs}" MaxHeight="240" SelectionMode="None">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Spacing="2" Margin="0,4">
+                                            <TextBlock Text="{Binding Summary}" FontWeight="SemiBold" />
+                                            <TextBlock Text="{Binding Detail}" TextWrapping="Wrap" FontSize="11" Opacity="0.56" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </Expander>
+                    </StackPanel>
+
+                    <TextBlock Text="补丁只从本地 ZIP、RAR 或 7Z 读取，不会自动联网下载或更新第三方文件。"
+                               TextWrapping="Wrap" FontSize="11" Opacity="0.46" />
+                </StackPanel>
+            </ScrollViewer>
+        </NavigationView>
+    </Grid>
+</Window>

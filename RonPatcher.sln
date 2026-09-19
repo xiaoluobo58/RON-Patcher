@@ -1,0 +1,34 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RonPatcher", "src\RonPatcher\RonPatcher.csproj", "{7E6B7D85-BE79-4E71-BD14-7B6B8E6A52BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RonPatcher.Core", "src\RonPatcher.Core\RonPatcher.Core.csproj", "{B8A21C6E-2A0C-4C3B-A6D8-6E0F0B08D54A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RonPatcher.Smoke", "tools\RonPatcher.Smoke\RonPatcher.Smoke.csproj", "{5B6EC9C0-C0B2-4F53-8B1A-0F8D7B3D9D21}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E6B7D85-BE79-4E71-BD14-7B6B8E6A52BB}.Debug|x64.ActiveCfg = Debug|x64
+		{7E6B7D85-BE79-4E71-BD14-7B6B8E6A52BB}.Debug|x64.Build.0 = Debug|x64
+		{7E6B7D85-BE79-4E71-BD14-7B6B8E6A52BB}.Release|x64.ActiveCfg = Release|x64
+		{7E6B7D85-BE79-4E71-BD14-7B6B8E6A52BB}.Release|x64.Build.0 = Release|x64
+		{B8A21C6E-2A0C-4C3B-A6D8-6E0F0B08D54A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B8A21C6E-2A0C-4C3B-A6D8-6E0F0B08D54A}.Debug|x64.Build.0 = Debug|Any CPU
+		{B8A21C6E-2A0C-4C3B-A6D8-6E0F0B08D54A}.Release|x64.ActiveCfg = Release|Any CPU
+		{B8A21C6E-2A0C-4C3B-A6D8-6E0F0B08D54A}.Release|x64.Build.0 = Release|Any CPU
+		{5B6EC9C0-C0B2-4F53-8B1A-0F8D7B3D9D21}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5B6EC9C0-C0B2-4F53-8B1A-0F8D7B3D9D21}.Debug|x64.Build.0 = Debug|Any CPU
+		{5B6EC9C0-C0B2-4F53-8B1A-0F8D7B3D9D21}.Release|x64.ActiveCfg = Release|Any CPU
+		{5B6EC9C0-C0B2-4F53-8B1A-0F8D7B3D9D21}.Release|x64.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
