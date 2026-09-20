@@ -1,4 +1,4 @@
-# RON Patcher
+# RON Patcher v0.2.4
 
 Ready or Not 的 WinUI 3 / Fluent UI 本地模式管理器。
 
@@ -9,6 +9,7 @@ Ready or Not 的 WinUI 3 / Fluent UI 本地模式管理器。
 - ZIP、RAR、7Z 补丁包
 - 扫描、修复、回滚和 ColdClientLoader 启动
 - x64 单文件便携发布
+- 从 GitHub Release 检查更新
 
 ## 构建
 

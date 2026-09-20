@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using RonPatcher.Diagnostics;
 using RonPatcher.ViewModels;
+using RonPatcher.Services;
 using Windows.Storage.Pickers;
 using WinRT.Interop;
 
@@ -13,6 +14,7 @@ namespace RonPatcher;
 public sealed partial class MainWindow : Window
 {
     public MainViewModel ViewModel { get; } = new();
+    private readonly UpdateService _updateService = new();
 
     public MainWindow()
     {
@@ -34,10 +36,61 @@ public sealed partial class MainWindow : Window
     {
         RootGrid.Loaded -= RootGrid_Loaded;
         await ViewModel.InitializeAsync();
+        _ = CheckForUpdatesQuietlyAsync();
         if (string.IsNullOrWhiteSpace(ViewModel.GamePath) || !ViewModel.HasOriginalFilesBackup)
         {
             await ShowFirstRunDialogAsync();
         }
+    }
+
+    private async Task CheckForUpdatesQuietlyAsync()
+    {
+        try
+        {
+            var update = await _updateService.CheckAsync();
+            if (update is not null)
+                DispatcherQueue.TryEnqueue(() => ShowUpdateBar(update));
+        }
+        catch (Exception exception)
+        {
+            StartupLog.Write("Update check failed.", exception);
+        }
+    }
+
+    private void ShowUpdateBar(UpdateInfo update)
+    {
+        ViewModel.SetUpdate(update.Version, update.ReleaseUrl);
+    }
+
+    private async void CheckUpdates_Click(object sender, RoutedEventArgs e)
+        => await CheckUpdatesAsync();
+
+    private async void CheckUpdates_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
+        => await CheckUpdatesAsync();
+
+    private async Task CheckUpdatesAsync()
+    {
+        try
+        {
+            var update = await _updateService.CheckAsync();
+            if (update is null)
+            {
+                await ShowNoticeAsync("已是最新版本", "当前版本已经是 GitHub 上的最新 Release。");
+                return;
+            }
+            ViewModel.SetUpdate(update.Version, update.ReleaseUrl);
+        }
+        catch (Exception exception)
+        {
+            StartupLog.Write("Manual update check failed.", exception);
+            await ShowNoticeAsync("检查更新失败", "无法连接 GitHub，请稍后重试。");
+        }
+    }
+
+    private void OpenUpdate_Click(object sender, RoutedEventArgs e)
+    {
+        if (!string.IsNullOrWhiteSpace(ViewModel.UpdateUrl))
+            _ = Windows.System.Launcher.LaunchUriAsync(new Uri(ViewModel.UpdateUrl));
     }
 
     private void ConfigureWindow()

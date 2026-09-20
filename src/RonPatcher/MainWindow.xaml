@@ -42,9 +42,14 @@
                 <NavigationViewItem Content="概览" Icon="Home" IsSelected="True" />
             </NavigationView.MenuItems>
             <NavigationView.FooterMenuItems>
-                <NavigationViewItem Content="本地工具 · v0.2.3" IsEnabled="False">
+                <NavigationViewItem Content="{Binding VersionDisplay}">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem Content="检查更新" Tapped="CheckUpdates_Tapped">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE895;" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.FooterMenuItems>
@@ -62,6 +67,12 @@
                         Title="{Binding MessageTitle}"
                         Message="{Binding MessageText}"
                         IsClosable="False" />
+                    <InfoBar IsOpen="{Binding HasUpdate}" Severity="Informational" Title="发现新版本"
+                             Message="{Binding UpdateMessage}">
+                        <InfoBar.ActionButton>
+                            <Button Content="打开 GitHub Release" Click="OpenUpdate_Click" />
+                        </InfoBar.ActionButton>
+                    </InfoBar>
 
                     <Border Padding="20" CornerRadius="10"
                             Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"

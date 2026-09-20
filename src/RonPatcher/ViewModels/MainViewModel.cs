@@ -63,6 +63,8 @@ public sealed class MainViewModel : ObservableObject
     private string _lastOperation = "暂无记录";
     private string _lastOperationDetail = "完成一次扫描后会显示结果。";
     private string _settingsRoot = string.Empty;
+    private string _updateVersion = string.Empty;
+    private string _updateUrl = string.Empty;
 
     public MainViewModel()
     {
@@ -204,6 +206,19 @@ public sealed class MainViewModel : ObservableObject
 
     public bool CanRollback => !IsBusy && _engine is not null && _canRollback;
     public bool HasOriginalFilesBackup => _hasBaseline;
+    public string VersionDisplay => $"本地工具 · v{typeof(MainViewModel).Assembly.GetName().Version?.ToString(3) ?? "0.0.0"}";
+    public bool HasUpdate => !string.IsNullOrWhiteSpace(_updateVersion);
+    public string UpdateUrl => _updateUrl;
+    public string UpdateMessage => HasUpdate ? $"GitHub 已发布 v{_updateVersion}，当前版本为 v{VersionDisplay.Replace("本地工具 · v", string.Empty)}。" : string.Empty;
+
+    public void SetUpdate(string version, string url)
+    {
+        _updateVersion = version;
+        _updateUrl = url;
+        RaisePropertyChanged(nameof(HasUpdate));
+        RaisePropertyChanged(nameof(UpdateUrl));
+        RaisePropertyChanged(nameof(UpdateMessage));
+    }
 
     public async Task InitializeAsync()
     {
